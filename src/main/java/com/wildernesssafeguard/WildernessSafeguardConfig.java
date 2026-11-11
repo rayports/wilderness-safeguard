@@ -177,4 +177,70 @@ public interface WildernessSafeguardConfig extends Config
 	{
 		return false;
 	}
+
+	@ConfigSection(
+		name = "Escape Teleport",
+		description = "Warn when you're not carrying a teleport that works up to Wilderness level 30",
+		position = 2
+	)
+	String escapeTeleport = "escapeTeleport";
+
+	@ConfigItem(
+		keyName = "escapeTeleportInfo",
+		name = "<html><div style='width:170px'>Whenever you don't have one of the checked items (charged, in inventory or equipped), an infobox and chat message warn you, so you notice before entering the Wilderness.</div></html>",
+		description = "",
+		section = escapeTeleport,
+		position = 0
+	)
+	default void escapeTeleportInfo()
+	{
+	}
+
+	@ConfigItem(
+		keyName = "warnNoEscapeTeleport",
+		name = "Warn without escape teleport",
+		description = "Show a warning when you have none of the checked items below",
+		section = escapeTeleport,
+		position = 1
+	)
+	default boolean warnNoEscapeTeleport()
+	{
+		return false;
+	}
+
+	@ConfigItem(
+		keyName = "escapeRingOfWealth",
+		name = "Ring of wealth",
+		description = "A charged Ring of wealth counts as an escape teleport",
+		section = escapeTeleport,
+		position = 2
+	)
+	default boolean escapeRingOfWealth()
+	{
+		return true;
+	}
+
+	@ConfigItem(
+		keyName = "escapeAmuletOfGlory",
+		name = "Amulet of glory",
+		description = "A charged or eternal Amulet of glory counts as an escape teleport",
+		section = escapeTeleport,
+		position = 3
+	)
+	default boolean escapeAmuletOfGlory()
+	{
+		return true;
+	}
+
+	@ConfigItem(
+		keyName = "escapeRoyalSeedPod",
+		name = "Royal seed pod",
+		description = "A Royal seed pod counts as an escape teleport",
+		section = escapeTeleport,
+		position = 4
+	)
+	default boolean escapeRoyalSeedPod()
+	{
+		return true;
+	}
 }

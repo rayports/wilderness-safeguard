@@ -21,3 +21,10 @@ While you carry a checked item (inventory or equipped), every Wilderness telepor
 - Imbued heart
 - Saturated heart
 - Chugging barrel
+
+## Escape Teleport
+Whenever you're not carrying a teleport that works up to Wilderness level 30, an infobox and chat message warn you, so you notice before entering the Wilderness. Which items count can be toggled:
+
+- Ring of wealth (charged)
+- Amulet of glory (charged or eternal)
+- Royal seed pod
