@@ -1,6 +1,7 @@
 package com.wildernesssafeguard;
 
 import com.google.inject.Provides;
+import com.wildernesssafeguard.escape.EscapeTeleportWarning;
 import com.wildernesssafeguard.itemwarnings.ItemWarningTracker;
 import com.wildernesssafeguard.teleport.WildernessTeleportBlocker;
 import javax.inject.Inject;
@@ -27,12 +28,17 @@ public class WildernessSafeguardPlugin extends Plugin
 	@Inject
 	private ItemWarningTracker itemWarningTracker;
 
+	@Inject
+	private EscapeTeleportWarning escapeTeleportWarning;
+
 	@Override
 	protected void startUp()
 	{
 		eventBus.register(itemWarningTracker);
 		eventBus.register(teleportBlocker);
 		itemWarningTracker.startUp(this);
+		escapeTeleportWarning.startUp(this);
+		eventBus.register(escapeTeleportWarning);
 	}
 
 	@Override
@@ -41,6 +47,8 @@ public class WildernessSafeguardPlugin extends Plugin
 		eventBus.unregister(teleportBlocker);
 		eventBus.unregister(itemWarningTracker);
 		itemWarningTracker.shutDown();
+		eventBus.unregister(escapeTeleportWarning);
+		escapeTeleportWarning.shutDown();
 	}
 
 	@Provides
