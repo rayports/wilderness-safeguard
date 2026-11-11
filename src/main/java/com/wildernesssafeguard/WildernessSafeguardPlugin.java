@@ -1,7 +1,8 @@
 package com.wildernesssafeguard;
 
 import com.google.inject.Provides;
-import com.wildernesssafeguard.highrisk.HighRiskTeleportBlocker;
+import com.wildernesssafeguard.itemwarnings.ItemWarningTracker;
+import com.wildernesssafeguard.teleport.WildernessTeleportBlocker;
 import javax.inject.Inject;
 import lombok.extern.slf4j.Slf4j;
 import net.runelite.client.config.ConfigManager;
@@ -21,18 +22,25 @@ public class WildernessSafeguardPlugin extends Plugin
 	private EventBus eventBus;
 
 	@Inject
-	private HighRiskTeleportBlocker highRiskTeleportBlocker;
+	private WildernessTeleportBlocker teleportBlocker;
+
+	@Inject
+	private ItemWarningTracker itemWarningTracker;
 
 	@Override
 	protected void startUp()
 	{
-		eventBus.register(highRiskTeleportBlocker);
+		eventBus.register(itemWarningTracker);
+		eventBus.register(teleportBlocker);
+		itemWarningTracker.startUp(this);
 	}
 
 	@Override
 	protected void shutDown()
 	{
-		eventBus.unregister(highRiskTeleportBlocker);
+		eventBus.unregister(teleportBlocker);
+		eventBus.unregister(itemWarningTracker);
+		itemWarningTracker.shutDown();
 	}
 
 	@Provides

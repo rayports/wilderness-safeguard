@@ -14,3 +14,10 @@ On High Risk worlds, removes menu options that teleport you into the Wilderness.
 - POH wilderness obelisk
 
 POH portals, the portal nexus and the jewellery box are covered by the matching teleport groups above.
+
+## Item Warnings
+While you carry a checked item (inventory or equipped), every Wilderness teleport above is removed on all worlds, and an infobox shows the item you need to bank:
+
+- Imbued heart
+- Saturated heart
+- Chugging barrel

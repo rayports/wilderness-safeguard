@@ -1,4 +1,4 @@
-package com.wildernesssafeguard.highrisk;
+package com.wildernesssafeguard.teleport;
 
 import com.wildernesssafeguard.WildernessSafeguardConfig;
 import java.util.List;

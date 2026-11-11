@@ -123,4 +123,58 @@ public interface WildernessSafeguardConfig extends Config
 	{
 		return false;
 	}
+
+	@ConfigSection(
+		name = "Item Warnings",
+		description = "Prevent teleporting into the Wilderness while carrying items you'd lose",
+		position = 1
+	)
+	String itemWarnings = "itemWarnings";
+
+	@ConfigItem(
+		keyName = "itemWarningsInfo",
+		name = "<html><div style='width:170px'>While you carry a checked item, all Wilderness teleports are removed on every world and an infobox shows the item you need to bank.</div></html>",
+		description = "",
+		section = itemWarnings,
+		position = 0
+	)
+	default void itemWarningsInfo()
+	{
+	}
+
+	@ConfigItem(
+		keyName = "warnImbuedHeart",
+		name = "Imbued heart",
+		description = "Block Wilderness teleports while carrying an Imbued heart",
+		section = itemWarnings,
+		position = 1
+	)
+	default boolean warnImbuedHeart()
+	{
+		return false;
+	}
+
+	@ConfigItem(
+		keyName = "warnSaturatedHeart",
+		name = "Saturated heart",
+		description = "Block Wilderness teleports while carrying a Saturated heart",
+		section = itemWarnings,
+		position = 2
+	)
+	default boolean warnSaturatedHeart()
+	{
+		return false;
+	}
+
+	@ConfigItem(
+		keyName = "warnChuggingBarrel",
+		name = "Chugging barrel",
+		description = "Block Wilderness teleports while carrying a Chugging barrel",
+		section = itemWarnings,
+		position = 3
+	)
+	default boolean warnChuggingBarrel()
+	{
+		return false;
+	}
 }

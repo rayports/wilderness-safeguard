@@ -1,6 +1,7 @@
-package com.wildernesssafeguard.highrisk;
+package com.wildernesssafeguard.teleport;
 
 import com.wildernesssafeguard.WildernessSafeguardConfig;
+import com.wildernesssafeguard.itemwarnings.ItemWarningTracker;
 import java.util.Set;
 import javax.inject.Inject;
 import javax.inject.Singleton;
@@ -13,11 +14,12 @@ import net.runelite.client.eventbus.Subscribe;
 import net.runelite.client.util.Text;
 
 /**
- * Removes menu entries that would teleport the player into the Wilderness
- * while logged into a High Risk world.
+ * Removes menu entries that would teleport the player into the Wilderness:
+ * the checked teleports while on a High Risk world, and every Wilderness teleport
+ * while carrying a risky item from the Item Warnings section.
  */
 @Singleton
-public class HighRiskTeleportBlocker
+public class WildernessTeleportBlocker
 {
 	/**
 	 * Options that never teleport, so items like a Burning amulet can still be
@@ -31,18 +33,22 @@ public class HighRiskTeleportBlocker
 
 	private final Client client;
 	private final WildernessSafeguardConfig config;
+	private final ItemWarningTracker itemWarningTracker;
 
 	@Inject
-	HighRiskTeleportBlocker(Client client, WildernessSafeguardConfig config)
+	WildernessTeleportBlocker(Client client, WildernessSafeguardConfig config, ItemWarningTracker itemWarningTracker)
 	{
 		this.client = client;
 		this.config = config;
+		this.itemWarningTracker = itemWarningTracker;
 	}
 
 	@Subscribe
 	public void onMenuEntryAdded(MenuEntryAdded event)
 	{
-		if (!client.getWorldType().contains(WorldType.HIGH_RISK))
+		boolean highRisk = client.getWorldType().contains(WorldType.HIGH_RISK);
+		boolean carryingRiskyItem = itemWarningTracker.isCarryingRiskyItem();
+		if (!highRisk && !carryingRiskyItem)
 		{
 			return;
 		}
@@ -54,7 +60,7 @@ public class HighRiskTeleportBlocker
 		}
 
 		String target = Text.removeTags(event.getTarget()).toLowerCase();
-		if (config.blockPohObelisk() && isPohObeliskTeleport(option, target))
+		if ((carryingRiskyItem || (highRisk && config.blockPohObelisk())) && isPohObeliskTeleport(option, target))
 		{
 			remove(event.getMenuEntry());
 			return;
@@ -62,7 +68,7 @@ public class HighRiskTeleportBlocker
 
 		for (WildernessTeleport teleport : WildernessTeleport.values())
 		{
-			if (teleport.isEnabled(config) && teleport.matches(option, target))
+			if ((carryingRiskyItem || (highRisk && teleport.isEnabled(config))) && teleport.matches(option, target))
 			{
 				remove(event.getMenuEntry());
 				return;
